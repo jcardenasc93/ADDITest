@@ -2,6 +2,7 @@
 
 import sys
 
+
 class InputCapturer:
     """ Class definition to capture user input """
 

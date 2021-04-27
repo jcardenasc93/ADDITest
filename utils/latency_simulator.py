@@ -3,6 +3,7 @@
 import time
 from utils.random_integers import get_random_with_range
 
+
 class LatencySimulator:
     """ Class definition to simulate a request latency simulator """
 
@@ -21,5 +22,4 @@ class LatencySimulator:
     def apply_latency(self):
         """ Apply latency based on simple calculations """
         required_time = self._bytes_sent / self._bandwidth
-        time.sleep(max(required_time, self._latency)/1000)
-
+        time.sleep(max(required_time, self._latency) / 1000)
