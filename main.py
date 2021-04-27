@@ -1,6 +1,7 @@
 """ Main project module """
 from services.capture_input import InputCapturer
 from services.external_mocks import RequestMocker
+from services.qualification_system import QualificationSystem
 from utils.run_parallel import ParallelProcessing
 
 from threading import Thread
@@ -18,21 +19,27 @@ def main():
     age = InputCapturer('int').capture_input('Enter age: ')
     dni = InputCapturer('str').capture_input('Enter national ID number: ')
 
-    # First external call
-    # user_data_validation = RequestMocker.mock_external_request('http://nationalid.net')
+    # Set fake urls
     id_validation_url = 'http://nationalid.net'
     judicial_validation_url = 'http://wejudgeyou.net'
 
+    # Defines the required mockers
     id_validation_request = RequestMocker(id_validation_url)
     judicial_validation_request = RequestMocker(judicial_validation_url)
 
+    # Run tasks in parallel
     parallel_runner = ParallelProcessing(
         id_validation_request.mock_external_request,
         judicial_validation_request.mock_external_request)
 
     parallel_runner.run_tasks_in_parallel()
 
-    print(id_validation_request.response, judicial_validation_request.response)
+    if judicial_validation_request.response == 'successful' and id_validation_request.response == 'successful':
+        qualifier = QualificationSystem(0, 100)
+        if qualifier.score_evaluation():
+            print("Person with DNI {} is now a prospect".format(dni))
+    else:
+        print("Sorry, the person doesn't meet the requirements")
 
 
 if __name__ == '__main__':
