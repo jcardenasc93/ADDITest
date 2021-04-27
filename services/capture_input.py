@@ -1,5 +1,6 @@
 """ This module allows to capture inputs from CLI """
 
+import sys
 
 class InputCapturer:
     """ Class definition to capture user input """
@@ -21,9 +22,11 @@ class InputCapturer:
             self._value = eval(self._data_type)(user_input)
         except NameError as e:
             print('Not valid python type: {}'.format(e))
+            sys.exit(1)
         except ValueError:
             print('Invalid value for the specified data type. Expecting: {}'.
                   format(eval(self._data_type)))
+            sys.exit(1)
 
     def capture_input(self, user_msg: str):
         """ This method captures input from CLI """
