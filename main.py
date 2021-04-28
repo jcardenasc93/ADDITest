@@ -34,10 +34,10 @@ def main():
 
     parallel_runner.run_tasks_in_parallel()
 
-    if judicial_validation_request.response == 'successful' and id_validation_request.response == 'successful':
-        qualifier = QualificationSystem(0, 100)
+    if judicial_validation_request.response == id_validation_request.response == 'successful':
+        qualifier = QualificationSystem(0, 100, 60)
         if qualifier.score_evaluation():
-            print("Person with DNI {} is now a prospect".format(dni))
+            print("This person is now a prospect")
     else:
         print("Sorry, the person doesn't meet the requirements")
 

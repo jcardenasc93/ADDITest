@@ -29,6 +29,10 @@ class InputCapturer:
                   format(eval(self._data_type)))
             sys.exit(1)
 
+    @staticmethod
+    def get_input(msg: str):
+        return input(msg)
+
     def capture_input(self, user_msg: str):
         """ This method captures input from CLI """
-        self.value = input(user_msg)
+        self.value = InputCapturer.get_input(user_msg)
