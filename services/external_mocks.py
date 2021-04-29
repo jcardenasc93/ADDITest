@@ -3,7 +3,6 @@
 import requests
 import requests_mock
 import random
-import sys
 
 from utils.latency_simulator import LatencySimulator
 from utils.random_integers import get_random_with_range
@@ -27,7 +26,7 @@ class RequestMocker:
             mocker.get(self._api_url, text=request_reponse)
             RequestMocker.introduce_latency()
             try:
-                resp = requests.get(self._api_url).text
+                requests.get(self._api_url)
             except requests_mock.exceptions.NoMockAddress:
                 self.mock_external_request()
         self.response = request_reponse
@@ -40,6 +39,6 @@ class RequestMocker:
         # Calcs random bytes to sent in the request
         bytes_to_sent = get_random_with_range(1024, 2048)
         # Calcs random bandwith to use for the latency
-        bandwith = get_random_with_range(10, 500)
-        latency_simulator = LatencySimulator(bandwith, bytes_to_sent)
+        bandwidth = get_random_with_range(10, 500)
+        latency_simulator = LatencySimulator(bandwidth, bytes_to_sent)
         latency_simulator.apply_latency()
